@@ -783,5 +783,303 @@ export const questions: Question[] = [
     options: ['Verb', 'Prepositional Phrase', 'Participle', 'Objective'],
     correctAnswer: 'Prepositional Phrase',
     explanation: '"Of reason" begins with a preposition ("of") and ends with a noun object ("reason").'
+  },
+
+  // --- Poetry ---
+  {
+    id: 98,
+    section: 'Poetry',
+    text: '(Fill in the blank) __________ is the Greek word for "measure."',
+    options: ['Beat', 'Meter', 'Foot', 'Feet'],
+    correctAnswer: 'Meter',
+    explanation: 'Meter comes from the Greek word "metron," meaning measure. It refers to the rhythmic pattern of stressed and unstressed syllables in poetry.'
+  },
+  {
+    id: 99,
+    section: 'Poetry',
+    text: 'Which type of poem is fourteen lines, usually iambic?',
+    options: ['Sonnet', 'Villanelle', 'Blank Verse', 'Petrachan Ballad'],
+    correctAnswer: 'Sonnet',
+    explanation: 'The Sonnet is a fourteen-line poem, typically written in iambic pentameter, with two main forms: Shakespearean and Petrachan.'
+  },
+  {
+    id: 100,
+    section: 'Poetry',
+    text: 'What are the two versions of Sonnets?',
+    options: ['English & French', 'American & English', 'Petrachan & Shakespearean', 'Shakespearean & English'],
+    correctAnswer: 'Petrachan & Shakespearean',
+    explanation: 'The two main sonnet forms are the Petrachan (Italian), developed by Petrarch, and the Shakespearean (English), popularized by Shakespeare.'
+  },
+  {
+    id: 101,
+    section: 'Poetry',
+    text: 'What type of poem is a short narrative poem with a subject matter that is communal stories of lost love, supernatural happenings, or recent events?',
+    options: ['Sestina', 'Villanelle', 'Pastoral', 'Ballad'],
+    correctAnswer: 'Ballad',
+    explanation: 'The Ballad is a short narrative poem whose subject matter typically includes communal stories of lost love, supernatural happenings, or recent events, originally sung or recited.'
+  },
+  {
+    id: 102,
+    section: 'Poetry',
+    text: '(Fill in the blank) __________ is a poem free of structured rules.',
+    options: ['Blank Verse', 'Open Form', 'Sestina', 'Closed Form'],
+    correctAnswer: 'Open Form',
+    explanation: 'Open Form (also called Free Verse) poetry is free of structured rules such as fixed meter, rhyme scheme, or stanza length.'
+  },
+  {
+    id: 103,
+    section: 'Poetry',
+    text: '(Fill in the blank) __________ are patterns of stressed and unstressed syllables.',
+    options: ['Feet', 'Meter', 'Beats', 'Stresses'],
+    correctAnswer: 'Feet',
+    explanation: 'Feet (singular: foot) are the basic units of meter — patterns of stressed and unstressed syllables. For example, an iamb is one unstressed syllable followed by one stressed syllable.'
+  },
+  {
+    id: 104,
+    section: 'Poetry',
+    text: 'Which is a measured unit of meter, made up of stressed and unstressed syllables?',
+    options: ['Beat', 'Foot', 'Accentual Meter', 'Syllabic Meter'],
+    correctAnswer: 'Foot',
+    explanation: 'A Foot is a measured unit of meter consisting of a specific pattern of stressed and unstressed syllables. Common feet include the iamb, trochee, dactyl, and anapest.'
+  },
+  {
+    id: 105,
+    section: 'Poetry',
+    text: '(Fill in the blank) The __________ is a form of poetry in which high subject matter could be written. This was often used for translation of epic poetry from the classical Latin and Greek.',
+    options: ['Epic Poetry', 'Ode', 'Elegy', 'Heroic Couplet'],
+    correctAnswer: 'Heroic Couplet',
+    explanation: 'The Heroic Couplet is a form of poetry written in rhyming pairs of iambic pentameter lines, traditionally used for high subject matter and the translation of classical Latin and Greek epic poetry.'
+  },
+  {
+    id: 106,
+    section: 'Poetry',
+    text: 'Identify this type of poetry: It is written using a rhyming pair of lines.',
+    options: ['Heroic Couplet', 'Ode', 'Elegy', 'Sonnet'],
+    correctAnswer: 'Heroic Couplet',
+    explanation: 'The Heroic Couplet consists of two consecutive rhyming lines, typically written in iambic pentameter.'
+  },
+  {
+    id: 107,
+    section: 'Poetry',
+    text: 'Identify this type of poem: (1) It has an iambic line with ten stresses and five beats, (2) it is unrhymed, and (3) often is identified as the poetic form closest to human speech.',
+    options: ['Open Form', 'Blank Verse', 'Sonnet', 'Free Verse'],
+    correctAnswer: 'Blank Verse',
+    explanation: 'Blank Verse is unrhymed iambic pentameter — ten syllables per line with five beats. Because its rhythm closely mirrors natural English speech patterns, it is considered the poetic form closest to human speech.'
+  },
+  {
+    id: 108,
+    section: 'Poetry',
+    text: 'Identify this type of poem: It has fourteen lines, usually iambic, with a rhyme scheme of ababcdcdefefgg.',
+    options: ['Neither Shakespearean or Petrachan', 'Villanelle', 'Pantoum', 'Sonnet'],
+    correctAnswer: 'Sonnet',
+    explanation: 'The rhyme scheme ababcdcdefefgg identifies this as a Shakespearean Sonnet — three quatrains (abab cdcd efef) followed by a closing couplet (gg).'
+  },
+  {
+    id: 109,
+    section: 'Poetry',
+    text: 'Identify this type of poem: It takes four steps forward and two steps back, because each stanza repeats the second and fourth line used in the previous stanza.',
+    options: ['Villanelle', 'Sestina', 'Pantoum', 'Pastoral'],
+    correctAnswer: 'Pantoum',
+    explanation: 'The Pantoum is a Malayan form where the second and fourth lines of each stanza become the first and third lines of the next stanza, creating the "four steps forward, two steps back" effect.'
+  },
+  {
+    id: 110,
+    section: 'Poetry',
+    text: 'Identify this type of poem: It has nineteen lines. It has five stanzas, each of three lines, with a final one of four.',
+    options: ['Sestina', 'Sonnet', 'Ode', 'Villanelle'],
+    correctAnswer: 'Villanelle',
+    explanation: 'The Villanelle has 19 lines: five tercets (3-line stanzas) followed by one quatrain (4-line stanza), with two lines repeating throughout as refrains.'
+  },
+  {
+    id: 111,
+    section: 'Poetry',
+    text: 'Identify this type of poem: It has thirty-nine lines, because it uses "lexical repetition." It has six stanzas of six lines and a final envoi of three lines.',
+    options: ['Sestina', 'Villanelle', 'Pastoral', 'Troubadour'],
+    correctAnswer: 'Sestina',
+    explanation: 'The Sestina has 39 lines: six stanzas of six lines each (36 lines) plus a three-line envoi. It uses lexical repetition — the same six end-words rotate through each stanza in a set pattern.'
+  },
+  {
+    id: 112,
+    section: 'Poetry',
+    text: 'Identify this type of poem: Jean Passerat, a French poet, made this type of poem popular. Historically, the poem came from a rustic Italian song.',
+    options: ['Pastoral', 'Sestina', 'Pantoum', 'Villanelle'],
+    correctAnswer: 'Villanelle',
+    explanation: 'The Villanelle was popularized by Jean Passerat (1534–1602), a French poet, and has origins in rustic Italian folk songs.'
+  },
+  {
+    id: 113,
+    section: 'Poetry',
+    text: 'Identify this type of poem: Arnaut Daniel belonged to a group of twelfth-century poets, called the troubadours, who needed, for their fame and fortune, to shock, delight, and entertain their audiences. What type of poem did Arnaut Daniel write?',
+    options: ['Sestina', 'Troubadour', 'Villanelle', 'Pantoum'],
+    correctAnswer: 'Sestina',
+    explanation: 'Arnaut Daniel, the troubadour poet, is credited with inventing the Sestina in the late twelfth century. Its complex interlocking pattern of repeated end-words was designed to delight and impress audiences.'
+  },
+  {
+    id: 114,
+    section: 'Poetry',
+    text: 'Identify this type of poem: This form of poem is Malayan in origin and came into English language poetry, as so many other strict forms have, through France.',
+    options: ['Troubadour', 'Pastoral', 'Pantoum', 'Villanelle'],
+    correctAnswer: 'Pantoum',
+    explanation: 'The Pantoum originated in Malay oral tradition and entered English poetry via French poets who discovered and adapted the form.'
+  },
+  {
+    id: 115,
+    section: 'Poetry',
+    text: 'Identify this type of poem: This form of poem, as many others, originated from song. Authors shared "tabloid" news through it with their fellow village neighbors. The format made the "news" easy to memorize for people to sing to other people; hence the news spread through song. This style of song later became a form of poetry — what is it called?',
+    options: ['Ballad', 'Pantoum', 'Sestina', 'Elegy'],
+    correctAnswer: 'Ballad',
+    explanation: 'The Ballad originated as a song form used to spread communal news — stories of lost love, crime, and recent events — in a memorable, singable format before evolving into a literary poetry form.'
+  },
+  {
+    id: 116,
+    section: 'Poetry',
+    text: 'Identify this type of poem: Historically, it was solemn, heroic, and elevated in form. It elevated the person, the object, the occasion. It often praised a person and exaggerated how great she/he is.',
+    options: ['Elegy', 'Heroic Couplet', 'Sonnet', 'The Ode'],
+    correctAnswer: 'Heroic Couplet',
+    explanation: 'The Heroic Couplet was used in solemn, elevated poetry. Its formal, rhyming structure made it ideal for praising great persons and occasions in an exalted tone.'
+  },
+  {
+    id: 117,
+    section: 'Poetry',
+    text: '(Fill in the blank) The __________ origins are in the small, sunlit courts of Sicily. It lingered there for two hundred years before it made the journey into English.',
+    options: ["Ode's", "Sonnet's", "Sestina's", "Villanelle's"],
+    correctAnswer: "Sonnet's",
+    explanation: "The Sonnet's origins trace back to the courts of Sicily in the thirteenth century before traveling through Italy (Petrarch) and eventually into English poetry."
+  },
+  {
+    id: 118,
+    section: 'Poetry',
+    text: '(Fill in the blank) The __________ sets out the circumstances and character of loss.',
+    options: ['Ode', 'Pantoum', 'Heroic Couplet', 'Elegy'],
+    correctAnswer: 'Elegy',
+    explanation: 'The Elegy is a mournful poem that sets out the circumstances and character of loss — typically the death of a person — and moves toward consolation.'
+  },
+  {
+    id: 119,
+    section: 'Poetry',
+    text: 'Identify this type of poem: In a simplified definition, it is the mode of poetry that sought to imitate and celebrate rural life.',
+    options: ['Ode', 'Rural Poetry', 'Elegy', 'Pastoral'],
+    correctAnswer: 'Pastoral',
+    explanation: 'The Pastoral is a mode of poetry that idealized and celebrated rural or country life, often depicting shepherds and nature in an idyllic setting.'
+  },
+  {
+    id: 120,
+    section: 'Poetry',
+    text: '(Fill in the blank) The __________ mourns for a dead person, lists his or her virtues, and seeks consolation beyond the momentary event.',
+    options: ['Elegy', 'Ode', 'Heroic Couplet', 'Pastoral'],
+    correctAnswer: 'Elegy',
+    explanation: 'The Elegy is a formal poem of mourning that laments the dead, celebrates their virtues, and typically moves toward consolation or acceptance.'
+  },
+  {
+    id: 121,
+    section: 'Poetry',
+    text: "(Fill in the blank) Arcadia was once a real place, a small Greek area that developed a pastoral in 400 B.C. In 1504, the Italian poet Jacopo Sannazzarro published L'Arcadia, renewing the fashion and visibility of the __________.",
+    options: ['Pastoral', 'Heroic Couplet', 'Sonnet', 'None of the above'],
+    correctAnswer: 'Pastoral',
+    explanation: "Jacopo Sannazzarro's L'Arcadia (1504) revived the Pastoral tradition rooted in ancient Greece, particularly the idealized region of Arcadia, and renewed the form's popularity across Europe."
+  },
+  {
+    id: 122,
+    section: 'Poetry',
+    text: '(Fill in the blank) The __________ elevated the person, the object, the occasion. In ancient times, athletes were praised, statesmen were applauded.',
+    options: ['Heroic Couplet', 'Ode', 'Both A and B', 'None of the above'],
+    correctAnswer: 'Heroic Couplet',
+    explanation: 'The Heroic Couplet was used to elevate its subjects — athletes, statesmen, and occasions — with its formal, dignified rhyming structure suited to grand subjects.'
+  },
+  {
+    id: 123,
+    section: 'Poetry',
+    text: "What type of poem (title and author only) is engraved in Mrs. Sutton's wedding ring?",
+    options: ['Heroic Couplet', 'Sonnet', 'Elegy', 'Nothing is engraved in her ring'],
+    correctAnswer: 'Sonnet',
+    explanation: "A Sonnet is engraved in Mrs. Sutton's wedding ring — a fitting choice given the Sonnet's long tradition as a vehicle for expressing love."
+  },
+  {
+    id: 124,
+    section: 'Poetry',
+    text: '(Fill in the blank) The early examples of the __________ are full of flatteries, exaggerations, and claims for the excellence and high standing of the subject.',
+    options: ['Ode', 'Heroic Couplet', 'Both A and B', 'None of the above'],
+    correctAnswer: 'Ode',
+    explanation: 'Early Odes were characterized by lavish praise, flattery, and exaggerated claims about the excellence of their subjects — originally athletes and statesmen in ancient Greece.'
+  },
+  {
+    id: 125,
+    section: 'Poetry',
+    text: 'Identify the type of poem below:\n\nLet me not to the marriage of true minds\nAdmit impediments. Love is not love\nWhich alters when it alteration finds,\nOr bends with the remover to remove:\nO no! it is an ever-fixed mark\nThat looks on tempests and is never shaken;\nIt is the star to every wandering bark,\nWhose worth\'s unknown, although his height be taken.\nLove\'s not Time\'s fool, though rosy lips and cheeks\nWithin his bending sickle\'s compass come:\nLove alters not with his brief hours and weeks,\nBut bears it out even to the edge of doom.\nIf this be error and upon me proved,\nI never writ, nor no man ever loved.',
+    options: ['Pantoum', 'Villanelle', 'Heroic Couplet', 'Sonnet'],
+    correctAnswer: 'Sonnet',
+    explanation: "This is Shakespeare's Sonnet 116. It has 14 lines in iambic pentameter with the Shakespearean rhyme scheme ababcdcdefefgg, closing with a heroic couplet."
+  },
+  {
+    id: 126,
+    section: 'Poetry',
+    text: 'Identify the type of poem below:\n\nOur lives avoided tragedy\nSimply by going on and on,\nWithout end and with little apparent meaning.\nOh, there were storms and small catastrophes.\n\nSimply by going on and on\nWe managed. No need for the heroic.\nOh, there were storms and small catastrophes.\nI don\'t remember all the particulars.\n\nWe managed. No need for the heroic.\nThere were the usual celebrations, the usual sorrows.\nI don\'t remember all the particulars.\nAcross the fence, the neighbors were our chorus.\n\n[...stanzas continue, repeating second and fourth lines of each previous stanza...]',
+    options: ['Pantoum', 'Villanelle', 'Heroic Couplet', 'Sonnet'],
+    correctAnswer: 'Pantoum',
+    explanation: "This is a Pantoum. The tell-tale sign is that lines 2 and 4 of each stanza become lines 1 and 3 of the next — \"four steps forward, two steps back.\""
+  },
+  {
+    id: 127,
+    section: 'Poetry',
+    text: 'Identify the type of poem below (by Dylan Thomas):\n\nToo proud to die; broken and blind he died\nThe darkest way, and did not turn away,\nA cold kind man brave in his narrow pride\n\nOn that darkest day, Oh, forever may\nHe lie lightly, at last, on the last, crossed\nHill, under the grass, in love, and there grow\n\nYoung among the long flocks, and never lie lost\n[...the poem mourns the speaker\'s dying father, lists his virtues, and seeks consolation...]',
+    options: ['Sonnet', 'Villanelle', 'Heroic Couplet', 'Elegy'],
+    correctAnswer: 'Elegy',
+    explanation: "This is an Elegy by Dylan Thomas. It mourns the death of his father, lists his virtues (proud, kind, brave), and seeks consolation — the three defining movements of the elegiac form."
+  },
+  {
+    id: 128,
+    section: 'Poetry',
+    text: 'Identify the type of poem below (by Franklin P. Adams):\n\n"Exegi monumentum aere perennius---"\nThe monument that I have built is durable as brass,\nAnd loftier than the Pyramids which mock the years that pass.\nNo blizzard can destroy it, nor furious rain corrode--\nRemember, I\'m the bard who built the first Horatian Ode.\n\nI shall not altogether die; a part of me\'s immortal.\n[...the poem lavishly praises its own subject in an exalted, celebratory tone...]',
+    options: ['Villanelle', 'Ode', 'Heroic Couplet', 'Sestina'],
+    correctAnswer: 'Ode',
+    explanation: "This is an Ode by Franklin P. Adams, referencing Horace's famous ode. It displays the hallmarks of the form: elevated tone, praise of a subject (itself/the poet), and exaggerated claims of excellence and immortality."
+  },
+  {
+    id: 129,
+    section: 'Poetry',
+    text: 'Identify the type of poem below (by Aldo Kraas):\n\nJose\nYou will never know how much does she loves you\nYou two were meant for each other\nCarry on loving each other\nBecause love is beautiful\n\nBallad for Jose\nDance beneath the moon\nOn a beach at night\nListened to the sound of the waves rolling in\n\n[...the poem tells a communal love story in song-like stanzas with a refrain ("Ballad for Jose")...]',
+    options: ['Sonnet', 'Pantoum', 'Ballad', 'Elegy'],
+    correctAnswer: 'Ballad',
+    explanation: "This is a Ballad by Aldo Kraas. It tells a communal narrative (a love story), uses a repeating refrain (\"Ballad for Jose\"), and has the song-like, accessible quality characteristic of the ballad form."
+  },
+  {
+    id: 130,
+    section: 'Poetry',
+    text: 'Identify the type of poem below (by Elizabeth Bishop):\n\nSeptember rain falls on the house.\nIn the failing light, the old grandmother\nsits in the kitchen with the child\nbeside the Little Marvel Stove,\nreading the jokes from the almanac,\nlaughing and talking to hide her tears.\n\nShe thinks that her equinoctial tears\nand the rain that beats on the roof of the house\nwere both foretold by the almanac,\nbut only known to a grandmother.\n[...six end-words — house, grandmother, child, stove, almanac, tears — rotate through six 6-line stanzas plus a 3-line envoi...]',
+    options: ['Villanelle', 'Pantoum', 'Sestina', 'Pastoral'],
+    correctAnswer: 'Sestina',
+    explanation: "This is Elizabeth Bishop's \"Sestina.\" The six end-words (house, grandmother, child, stove, almanac, tears) rotate through six stanzas of six lines each, followed by a three-line envoi — the defining structure of the Sestina."
+  },
+  {
+    id: 131,
+    section: 'Poetry',
+    text: 'Identify the type of poem below (by Flora Launa):\n\nRunning through a field of clover,\nStop to pick a daffodil\nI play he loves me, loves me not,\nThe daffy lies, it says he does not love me!\nWell, what use a daffy\nWhen Jimmy gives me roses?',
+    options: ['Blank Verse', 'Free Verse', 'Open Verse', 'Both (b) and (c)'],
+    correctAnswer: 'Free Verse',
+    explanation: 'This short poem by Flora Launa is Free Verse — it has no regular meter, no consistent rhyme scheme, and no fixed stanza structure. It follows the natural rhythm of speech.'
+  },
+  {
+    id: 132,
+    section: 'Poetry',
+    text: 'Identify the type of poem below (excerpt from Wordsworth):\n\nFive years have past; five summers, with the length\nOf five long winters! and again I hear\nThese waters, rolling from their mountain-springs\nWith a soft inland murmur.--Once again\nDo I behold these steep and lofty cliffs,\nThat on a wild secluded scene impress\nThoughts of more deep seclusion; and connect\nThe landscape with the quiet of the sky.\n[...continued in unrhymed iambic pentameter, with no fixed stanza breaks...]',
+    options: ['Blank Verse', 'Free Verse', 'Open Verse', 'Both (b) and (c)'],
+    correctAnswer: 'Both (b) and (c)',
+    explanation: "This is Wordsworth's \"Lines Composed a Few Miles above Tintern Abbey,\" written in unrhymed iambic pentameter with open, paragraph-like stanzas. It qualifies as both Free Verse (no rhyme scheme) and Open Verse (no fixed stanza form)."
+  },
+  {
+    id: 133,
+    section: 'Poetry',
+    text: 'Identify the type of poem below:\n\nWhen We Were Thirteen\nRemember running wild and free\nwhen we hung out by the river,\nyou and Markus and Tim and me.\n\nWe\'d walk for an eternity.\nWe took what life could deliver\nremember running wild and free.\n\nOur voices echoed loud with glee\ntill it got dark and we\'d shiver,\nyou and Markus and Tim and me.\n\n[...the first and third lines of stanza 1 repeat as refrains throughout, closing the final quatrain...]',
+    options: ['Villanelle', 'Sestina', 'Pantoum', 'Ode'],
+    correctAnswer: 'Villanelle',
+    explanation: 'This is a Villanelle. "Remember running wild and free" and "you and Markus and Tim and me" are the two refrains that alternate at the end of each tercet and unite in the closing quatrain — the signature structure of the Villanelle.'
+  },
+  {
+    id: 134,
+    section: 'Poetry',
+    text: "Identify the type of poem below:\n\nIt's hot to-day. The bees is buzzin'\nKinder don't-keer-like aroun',\nAn' fur off the warm air dances\nO'er the parchin' roofs in town.\nIn the brook the cows is standin';\nChildern hidin' in the hay;\nCan't keep none of 'em a workin',\n'Cause it's hot to-day.\n\n[...the poem imitates rural dialect and depicts farm life on a sweltering summer day, celebrating and lamenting country living...]",
+    options: ['Pastoral', 'Sestina', 'Villanelle', 'None of the above'],
+    correctAnswer: 'Pastoral',
+    explanation: "This is a Pastoral poem. It depicts and celebrates rural life — farm work, animals, country dialect, and the rhythms of nature — which are the defining characteristics of the Pastoral mode."
   }
 ];
