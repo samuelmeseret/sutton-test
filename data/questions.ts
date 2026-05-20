@@ -247,8 +247,8 @@ export const questions: Question[] = [
     section: 'Sentence Errors',
     text: 'Some of the reporting of supposedly objective newspaper writers appears to be biased.',
     options: ['No error', 'Run-on', 'Fragment', 'Subject-verb', 'Usage'],
-    correctAnswer: 'Subject-verb',
-    explanation: 'This question can be tricky. Technically "Reporting" is singular/uncountable, so "appears" is correct. However, if the test marks it as S-V error, it likely implies "Some" refers to "writers" (incorrectly) or expects "appear". Given the strict key, it is marked as a Subject-verb error context.'
+    correctAnswer: 'No error',
+    explanation: 'No error. The true subject is "reporting" (singular, uncountable), so "appears" is the correct singular verb.'
   },
   {
     id: 32,
