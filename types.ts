@@ -4,7 +4,7 @@ export interface Question {
   options: string[];
   correctAnswer: string;
   explanation: string;
-  section: 'Sentence Errors' | 'Grammar Rules';
+  section: 'Sentence Errors' | 'Grammar Rules' | 'Poetry';
 }
 
 export interface QuizState {
