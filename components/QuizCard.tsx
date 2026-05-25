@@ -6,9 +6,10 @@ interface QuizCardProps {
   onAnswer: (isCorrect: boolean, userAnswer: string) => void;
   isReviewMode?: boolean;
   isLast?: boolean;
+  lastButtonLabel?: string;
 }
 
-const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isReviewMode = false, isLast = false }) => {
+const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isReviewMode = false, isLast = false, lastButtonLabel }) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -101,7 +102,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isReviewMode = 
               {question.explanation}
             </p>
             <button onClick={handleNext} className="mt-4 w-full bg-slate-800 dark:bg-slate-700 text-white py-2 rounded-lg hover:bg-slate-900 dark:hover:bg-slate-600 transition-colors">
-                 {isLast ? (isReviewMode ? "Finish Round" : "Finish Quiz") : "Next Question"}
+                 {isLast ? (isReviewMode ? "Finish Round" : (lastButtonLabel ?? "Finish Quiz")) : "Next Question"}
             </button>
           </div>
         </div>
