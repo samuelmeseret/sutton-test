@@ -81,7 +81,7 @@ const CATEGORY_LABEL: Record<QuizCategory, string> = {
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<QuizState>(INITIAL_STATE);
   const [started, setStarted] = useState(false);
-  const [pickingCategory, setPickingCategory] = useState(false);
+  const [configuring, setConfiguring] = useState(false);
   const [showAnswerKey, setShowAnswerKey] = useState(false);
   const [isDark, setIsDark] = useDarkMode();
   const [activeQuestions, setActiveQuestions] = useState<Question[]>([]);
@@ -93,38 +93,65 @@ const App: React.FC = () => {
   const [nextRoundQuestions, setNextRoundQuestions] = useState<Question[]>([]);
   // Track IDs of questions we have already recorded in history (for scoring purposes)
   const [recordedQuestionIds, setRecordedQuestionIds] = useState<Set<number>>(new Set());
+  // True between batches while the user decides to advance or retry
+  const [awaitingBatchDecision, setAwaitingBatchDecision] = useState(false);
+
+  // Config-screen state
+  const [selectedCategory, setSelectedCategory] = useState<QuizCategory>('all');
+  const [useBatches, setUseBatches] = useState<boolean>(true);
+  const [batchSizeInput, setBatchSizeInput] = useState<string>(String(batchSizeFor('all')));
 
   // Initialize with shuffled questions
   useEffect(() => {
     setActiveQuestions(shuffleArray(sourceQuestions));
   }, []);
 
-  const startStandard = () => {
-    const shuffled = shuffleArray(sourceQuestions);
-    setPool(sourceQuestions);
+  const openConfig = () => {
+    setSelectedCategory('all');
+    setUseBatches(true);
+    setBatchSizeInput(String(batchSizeFor('all')));
+    setConfiguring(true);
+  };
+
+  const handleCategoryChange = (category: QuizCategory) => {
+    setSelectedCategory(category);
+    const max = categoryFilter(category).length;
+    const parsed = parseInt(batchSizeInput, 10);
+    if (!Number.isFinite(parsed) || parsed < 1) {
+      setBatchSizeInput(String(Math.min(batchSizeFor(category), max)));
+    } else if (parsed > max) {
+      setBatchSizeInput(String(max));
+    }
+  };
+
+  const startStandard = (category: QuizCategory) => {
+    const filtered = categoryFilter(category);
+    const shuffled = shuffleArray(filtered);
+    setPool(filtered);
     setBatches([]);
     setActiveQuestions(shuffled);
     setNextRoundQuestions([]);
     setRecordedQuestionIds(new Set());
+    setAwaitingBatchDecision(false);
     setGameState({
       ...INITIAL_STATE,
       mode: 'standard',
-      category: 'all',
+      category,
       totalBatches: 1,
     });
-    setPickingCategory(false);
+    setConfiguring(false);
     setStarted(true);
   };
 
-  const startBatched = (category: QuizCategory) => {
+  const startBatched = (category: QuizCategory, size: number) => {
     const filtered = categoryFilter(category);
-    const size = batchSizeFor(category);
     const split = chunk(shuffleArray(filtered), size);
     setPool(filtered);
     setBatches(split);
     setActiveQuestions(split[0] ?? []);
     setNextRoundQuestions([]);
     setRecordedQuestionIds(new Set());
+    setAwaitingBatchDecision(false);
     setGameState({
       ...INITIAL_STATE,
       mode: 'batched',
@@ -133,8 +160,45 @@ const App: React.FC = () => {
       totalBatches: split.length,
       batchAttempts: [],
     });
-    setPickingCategory(false);
+    setConfiguring(false);
     setStarted(true);
+  };
+
+  const handleStartFromConfig = () => {
+    const filtered = categoryFilter(selectedCategory);
+    if (!useBatches) {
+      startStandard(selectedCategory);
+      return;
+    }
+    const parsed = parseInt(batchSizeInput, 10);
+    if (!Number.isFinite(parsed) || parsed < 1 || parsed > filtered.length) return;
+    startBatched(selectedCategory, parsed);
+  };
+
+  const handleNextBatch = () => {
+    const nextBatchIndex = gameState.currentBatchIndex + 1;
+    setActiveQuestions(batches[nextBatchIndex]);
+    setNextRoundQuestions([]);
+    setAwaitingBatchDecision(false);
+    setGameState(prev => ({
+      ...prev,
+      currentQuestionIndex: 0,
+      isReviewMode: false,
+      round: 1,
+      currentBatchIndex: nextBatchIndex,
+    }));
+  };
+
+  const handleRetryBatch = () => {
+    setActiveQuestions(shuffleArray(batches[gameState.currentBatchIndex]));
+    setNextRoundQuestions([]);
+    setAwaitingBatchDecision(false);
+    setGameState(prev => ({
+      ...prev,
+      currentQuestionIndex: 0,
+      isReviewMode: false,
+      round: 1,
+    }));
   };
 
   const handleAnswer = (isCorrect: boolean, userAnswer: string) => {
@@ -215,7 +279,7 @@ const App: React.FC = () => {
 
   // Effect to handle round transitions when index exceeds bounds
   useEffect(() => {
-    if (started && !gameState.showResults && gameState.currentQuestionIndex >= activeQuestions.length) {
+    if (started && !gameState.showResults && !awaitingBatchDecision && gameState.currentQuestionIndex >= activeQuestions.length) {
       if (nextRoundQuestions.length > 0) {
         // Start Review Round within the current batch
         setActiveQuestions(shuffleArray(nextRoundQuestions));
@@ -227,15 +291,10 @@ const App: React.FC = () => {
           round: prev.round + 1
         }));
       } else if (gameState.mode === 'batched' && gameState.currentBatchIndex + 1 < gameState.totalBatches) {
-        // Batch cleared — advance to the next batch
-        const nextBatchIndex = gameState.currentBatchIndex + 1;
-        setActiveQuestions(batches[nextBatchIndex]);
+        // Batch cleared — pause for user decision (advance or retry)
+        setAwaitingBatchDecision(true);
         setGameState(prev => ({
           ...prev,
-          currentQuestionIndex: 0,
-          isReviewMode: false,
-          round: 1,
-          currentBatchIndex: nextBatchIndex,
           batchAttempts: [...prev.batchAttempts, prev.round]
         }));
       } else {
@@ -249,7 +308,7 @@ const App: React.FC = () => {
         }));
       }
     }
-  }, [gameState.currentQuestionIndex, activeQuestions.length, nextRoundQuestions, started, gameState.showResults, gameState.mode, gameState.currentBatchIndex, gameState.totalBatches, batches]);
+  }, [gameState.currentQuestionIndex, activeQuestions.length, nextRoundQuestions, started, gameState.showResults, gameState.mode, gameState.currentBatchIndex, gameState.totalBatches, batches, awaitingBatchDecision]);
 
   const restartQuiz = () => {
     setActiveQuestions(shuffleArray(sourceQuestions));
@@ -257,8 +316,12 @@ const App: React.FC = () => {
     setBatches([]);
     setNextRoundQuestions([]);
     setRecordedQuestionIds(new Set());
+    setAwaitingBatchDecision(false);
+    setSelectedCategory('all');
+    setUseBatches(true);
+    setBatchSizeInput(String(batchSizeFor('all')));
     setGameState(INITIAL_STATE);
-    setPickingCategory(false);
+    setConfiguring(false);
     setStarted(false);
   };
 
@@ -283,35 +346,92 @@ const App: React.FC = () => {
     );
   }
 
-  if (!started && pickingCategory) {
-    const options: { key: QuizCategory; count: number; size: number }[] = [
-      { key: 'all', count: categoryFilter('all').length, size: batchSizeFor('all') },
-      { key: 'grammar', count: categoryFilter('grammar').length, size: batchSizeFor('grammar') },
-      { key: 'poetry', count: categoryFilter('poetry').length, size: batchSizeFor('poetry') },
-    ];
+  if (!started && configuring) {
+    const topicOptions: QuizCategory[] = ['all', 'grammar', 'poetry'];
+    const topicCount = categoryFilter(selectedCategory).length;
+    const parsedSize = parseInt(batchSizeInput, 10);
+    const sizeValid = Number.isFinite(parsedSize) && parsedSize >= 1 && parsedSize <= topicCount;
+    const canStart = !useBatches || sizeValid;
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden text-center relative">
             <div className="absolute top-4 right-4 z-10">{themeToggle}</div>
             <div className="bg-blue-600 h-2"></div>
             <div className="p-8">
-                <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Choose Category</h1>
-                <p className="text-slate-500 dark:text-slate-400 mb-8">Each batch must be cleared with every answer correct before moving on.</p>
-                <div className="space-y-3">
-                  {options.map(opt => (
-                    <button
-                      key={opt.key}
-                      onClick={() => startBatched(opt.key)}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-md text-left flex justify-between items-center"
-                    >
-                      <span>{CATEGORY_LABEL[opt.key]}</span>
-                      <span className="text-xs font-normal opacity-90">{opt.count} questions · batches of {opt.size}</span>
-                    </button>
-                  ))}
+                <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Set Up Quiz</h1>
+                <p className="text-slate-500 dark:text-slate-400 mb-6">Pick a topic and choose whether to split it into batches.</p>
+
+                <div className="text-left mb-6">
+                  <span className="text-xs font-bold uppercase text-slate-500 dark:text-slate-400">Topic</span>
+                  <div className="mt-2 space-y-2">
+                    {topicOptions.map(opt => {
+                      const count = categoryFilter(opt).length;
+                      const isSelected = selectedCategory === opt;
+                      return (
+                        <button
+                          key={opt}
+                          onClick={() => handleCategoryChange(opt)}
+                          className={`w-full font-bold py-3 px-4 rounded-lg transition-colors shadow-sm text-left flex justify-between items-center border ${
+                            isSelected
+                              ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-600'
+                              : 'bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-100 border-slate-200 dark:border-slate-600'
+                          }`}
+                        >
+                          <span>{CATEGORY_LABEL[opt]}</span>
+                          <span className="text-xs font-normal opacity-90">{count} questions</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
+
+                <div className="text-left mb-4">
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={useBatches}
+                      onChange={(e) => setUseBatches(e.target.checked)}
+                      className="w-4 h-4 accent-blue-600"
+                    />
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">Split into batches</span>
+                  </label>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 ml-7">
+                    {useBatches
+                      ? 'Each batch must be cleared with every answer correct before moving on.'
+                      : 'Play all questions in one continuous run, then review any misses at the end.'}
+                  </p>
+                </div>
+
+                {useBatches && (
+                  <div className="text-left mb-6">
+                    <label htmlFor="batchSize" className="text-xs font-bold uppercase text-slate-500 dark:text-slate-400">
+                      Questions per batch
+                    </label>
+                    <input
+                      id="batchSize"
+                      type="number"
+                      min={1}
+                      max={topicCount}
+                      value={batchSizeInput}
+                      onChange={(e) => setBatchSizeInput(e.target.value)}
+                      className="mt-2 w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                      Between 1 and {topicCount}.
+                    </p>
+                  </div>
+                )}
+
                 <button
-                    onClick={() => setPickingCategory(false)}
-                    className="w-full mt-6 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-semibold py-2 transition-colors"
+                  onClick={handleStartFromConfig}
+                  disabled={!canStart}
+                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 dark:disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-md"
+                >
+                  Start Quiz
+                </button>
+                <button
+                    onClick={() => setConfiguring(false)}
+                    className="w-full mt-4 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-semibold py-2 transition-colors"
                 >
                     ← Back
                 </button>
@@ -334,16 +454,10 @@ const App: React.FC = () => {
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Midterm Exam Prep 2025</h1>
                 <p className="text-slate-500 dark:text-slate-400 mb-8">Master your grammar with {sourceQuestions.length} practice questions covering sentence errors, object identification, and syntactical patterns.</p>
                 <button
-                    onClick={startStandard}
+                    onClick={openConfig}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-lg shadow-blue-200"
                 >
                     Start Quiz
-                </button>
-                <button
-                    onClick={() => setPickingCategory(true)}
-                    className="w-full mt-3 bg-blue-50 dark:bg-blue-900/40 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-700 dark:text-blue-200 font-bold py-3 px-6 rounded-lg transition-colors border border-blue-200 dark:border-blue-800"
-                >
-                    Start Batched Quiz
                 </button>
                 <button
                     onClick={() => setShowAnswerKey(true)}
@@ -375,6 +489,46 @@ const App: React.FC = () => {
              </div>
         </header>
         <ResultCard state={gameState} questions={pool} onRestart={restartQuiz} />
+      </div>
+    );
+  }
+
+  if (awaitingBatchDecision) {
+    const justCleared = gameState.currentBatchIndex + 1;
+    const remaining = gameState.totalBatches - justCleared;
+    const roundsTaken = gameState.batchAttempts[gameState.batchAttempts.length - 1] ?? 1;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden text-center relative">
+            <div className="absolute top-4 right-4 z-10">{themeToggle}</div>
+            <div className="bg-emerald-500 h-2"></div>
+            <div className="p-8">
+                <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/40 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg className="w-8 h-8 text-emerald-600 dark:text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">
+                  Batch {justCleared} cleared
+                </h1>
+                <p className="text-slate-500 dark:text-slate-400 mb-2">
+                  {roundsTaken === 1 ? 'Perfect on the first pass.' : `Took ${roundsTaken} rounds to clear.`}
+                </p>
+                <p className="text-slate-500 dark:text-slate-400 mb-8">
+                  {remaining} batch{remaining === 1 ? '' : 'es'} left.
+                </p>
+                <button
+                    onClick={handleNextBatch}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-md"
+                >
+                    Next batch
+                </button>
+                <button
+                    onClick={handleRetryBatch}
+                    className="w-full mt-3 bg-blue-50 dark:bg-blue-900/40 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-700 dark:text-blue-200 font-bold py-3 px-6 rounded-lg transition-colors border border-blue-200 dark:border-blue-800"
+                >
+                    Retry this batch
+                </button>
+            </div>
+        </div>
       </div>
     );
   }
