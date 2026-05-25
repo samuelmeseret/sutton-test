@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Question } from '../types';
 
 interface QuizCardProps {
@@ -9,9 +9,19 @@ interface QuizCardProps {
   lastButtonLabel?: string;
 }
 
+function shuffleArray<T>(array: T[]): T[] {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
+
 const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isReviewMode = false, isLast = false, lastButtonLabel }) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const shuffledOptions = useMemo(() => shuffleArray(question.options), [question]);
 
   const handleSelect = (option: string) => {
     if (hasSubmitted) return;
@@ -41,7 +51,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isReviewMode = 
       </div>
 
       <div className="p-6 space-y-3">
-        {question.options.map((option, idx) => {
+        {shuffledOptions.map((option, idx) => {
           let optionClass = "w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-200 font-medium text-slate-700 dark:text-slate-200 flex justify-between items-center ";
 
           if (hasSubmitted) {
