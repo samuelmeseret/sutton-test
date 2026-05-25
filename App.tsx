@@ -3,6 +3,7 @@ import { questions as sourceQuestions } from './data/questions';
 import { QuizState, Question } from './types';
 import QuizCard from './components/QuizCard';
 import ResultCard from './components/ResultCard';
+import AnswerKey from './components/AnswerKey';
 
 const INITIAL_STATE: QuizState = {
   currentQuestionIndex: 0,
@@ -26,6 +27,7 @@ function shuffleArray<T>(array: T[]): T[] {
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<QuizState>(INITIAL_STATE);
   const [started, setStarted] = useState(false);
+  const [showAnswerKey, setShowAnswerKey] = useState(false);
   const [activeQuestions, setActiveQuestions] = useState<Question[]>([]);
   // Store questions that were answered incorrectly in the current round
   const [nextRoundQuestions, setNextRoundQuestions] = useState<Question[]>([]);
@@ -147,6 +149,12 @@ const App: React.FC = () => {
   const currentQuestion = activeQuestions[gameState.currentQuestionIndex];
   const isLastQuestion = gameState.currentQuestionIndex === activeQuestions.length - 1;
 
+  if (showAnswerKey) {
+    return (
+      <AnswerKey questions={sourceQuestions} onBack={() => setShowAnswerKey(false)} />
+    );
+  }
+
   if (!started) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center p-4">
@@ -158,11 +166,17 @@ const App: React.FC = () => {
                 </div>
                 <h1 className="text-2xl font-bold text-slate-900 mb-2">Midterm Exam Prep 2025</h1>
                 <p className="text-slate-500 mb-8">Master your grammar with {sourceQuestions.length} practice questions covering sentence errors, object identification, and syntactical patterns.</p>
-                <button 
+                <button
                     onClick={handleStart}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-lg shadow-blue-200"
                 >
                     Start Quiz
+                </button>
+                <button
+                    onClick={() => setShowAnswerKey(true)}
+                    className="w-full mt-3 bg-white hover:bg-slate-50 text-blue-600 font-semibold py-3 px-6 rounded-lg transition-colors border border-blue-200"
+                >
+                    View Answer Key
                 </button>
             </div>
         </div>
@@ -176,6 +190,12 @@ const App: React.FC = () => {
         <header className="bg-white border-b border-slate-200 px-4 py-4 sticky top-0 z-10">
              <div className="max-w-4xl mx-auto flex justify-between items-center">
                  <h1 className="font-bold text-slate-800">Midterm Exam Results</h1>
+                 <button
+                    onClick={() => setShowAnswerKey(true)}
+                    className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg font-semibold text-sm transition-colors"
+                 >
+                    Answer Key
+                 </button>
              </div>
         </header>
         <ResultCard state={gameState} questions={sourceQuestions} onRestart={restartQuiz} />
