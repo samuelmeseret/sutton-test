@@ -38,6 +38,25 @@ const ResultCard: React.FC<ResultCardProps> = ({ state, questions, onRestart }) 
         </button>
       </div>
 
+      {state.mode === 'batched' && state.batchAttempts.length > 0 && (
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-8">
+          <div className="p-5 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/40">
+            <h3 className="font-bold text-slate-800 dark:text-slate-100">Batches</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Rounds required to clear each batch.</p>
+          </div>
+          <ul className="divide-y divide-slate-100 dark:divide-slate-700">
+            {state.batchAttempts.map((rounds, i) => (
+              <li key={i} className="flex justify-between items-center px-5 py-3">
+                <span className="font-semibold text-slate-700 dark:text-slate-200">Batch {i + 1}</span>
+                <span className={`text-sm font-medium ${rounds === 1 ? 'text-green-600 dark:text-green-300' : 'text-amber-600 dark:text-amber-300'}`}>
+                  {rounds === 1 ? 'Cleared in 1 round (perfect)' : `Cleared in ${rounds} rounds`}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {incorrectIds.length > 0 && (
         <div className="space-y-6">
           <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 px-2 border-l-4 border-red-500 pl-3">Review Incorrect Answers</h3>
